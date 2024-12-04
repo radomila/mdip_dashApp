@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "mdip-semestral-project"
+version = "0.1.0"
+description = "Data science project for MDIP class"
+authors = ["Radomila Hejhalová <hejhalova.radomila@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+dash = "2.18.2"
+pandas = "2.2.1"
+dash-bootstrap-components = "1.6.1rc2"
+plotly = "6.0.0rc0"
+numpy = "1.26.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
