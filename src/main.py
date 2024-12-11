@@ -1,7 +1,8 @@
+import dash
 from dash import Dash, html
 import dash_bootstrap_components as dbc
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME])
+app = Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME])
 
 # Navbar
 navbar = html.Div([
@@ -22,7 +23,7 @@ navbar = html.Div([
             html.I(className="fa-solid fa-location-dot"),
             "Locations"
         ], href="/locations", className="navbar-link")
-        ],
+    ],
         vertical=True,
         pills=True
     ),
@@ -31,9 +32,19 @@ navbar = html.Div([
 )
 
 # Layout aplikace
-app.layout = html.Div([
-    navbar
-])
-
+app.layout = html.Div(
+    children=[
+        navbar,  
+        html.Div(
+            dash.page_container,
+            style={
+                "marginLeft": "220px",
+                "padding": "2em",
+                "backgroundColor": "var(--light-grey)",
+                "minHeight": "100vh",
+            },
+        ),
+    ]
+)
 
 app.run_server(debug=True)
