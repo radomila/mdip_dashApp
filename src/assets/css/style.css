@@ -3,6 +3,9 @@
     --light-grey: #D7E0E9;
     --dark-grey: #353739;
     --blue: #009DD7;
+    --green: #1a9641;
+    --red: #D9534F;
+
 }
 
 body {
@@ -57,6 +60,54 @@ h3 {
     color: var(--blue);
 }
 
+.cards-section {
+   margin-bottom: 50px;
+}
+
+.lowest-salary {
+    color: var(--red);
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.highest-salary {
+    color: var(--green);
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.average-salary{
+    color: var(--blue);
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+.card-body {
+    border-radius: 12px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.card-title {
+   font-weight: 500;
+   font-size: 16px;
+}
+
+.card-country-name {
+    font-size: 14px;
+}
+
+.card-body p {
+    color: #6C757D;
+}
+
 .dropdown-container {
    padding-bottom: 20px;
 }
@@ -68,4 +119,9 @@ h3 {
 
 .checklist-container {
     padding-bottom: 1em;
+}
+
+.graphs-container {
+    display: flex;
+    align-items: flex-end;
 }

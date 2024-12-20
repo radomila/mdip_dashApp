@@ -83,6 +83,9 @@ def update_graph(selected_ratios):
             tickmode="array",
             tickvals=filtered_data["work_year"].unique(),
             ticktext=[str(year) for year in filtered_data["work_year"].unique()],
+        ),
+        yaxis=dict(
+            rangemode="tozero"
         )
     )
     return fig
