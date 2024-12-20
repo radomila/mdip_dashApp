@@ -45,7 +45,7 @@ fig = px.choropleth(
     locations="company_location",
     color="avg_salary",
     locationmode="ISO-3",
-    color_continuous_scale="RdYlGn",
+    color_continuous_scale="blues",
     title="Average Salary by Country in USD"
 )
 
@@ -161,7 +161,7 @@ def update_graph(experience_levels, employment_types, company_sizes):
     )
 
     fig.update_traces(
-        marker_color="#009DD7"
+        marker_color="#1f77b4"
     )
 
     fig.update_layout(

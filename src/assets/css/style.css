@@ -2,7 +2,7 @@
     --white: #ffffff;
     --light-grey: #D7E0E9;
     --dark-grey: #353739;
-    --blue: #009DD7;
+    --blue: #1f77b4;
     --green: #1a9641;
     --red: #D9534F;
 
@@ -33,6 +33,7 @@ h3 {
 .navbar-link {
    display: flex;
    align-items: center;
+   gap: 10px;
    padding-left: 0;
    font-size: 16px;
    font-weight: 600;

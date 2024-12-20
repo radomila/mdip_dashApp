@@ -12,17 +12,13 @@ navbar = html.Div([
             "Homepage"
         ], href="/homepage", className="navbar-link"),
         dbc.NavLink([
-            html.I(className="fa-solid fa-chart-line"),
-            "Time Trends"
-        ], href="/time-trends", className="navbar-link"),
-        dbc.NavLink([
             html.I(className="fa-solid fa-sack-dollar"),
             "Salaries"
         ], href="/salaries", className="navbar-link"),
         dbc.NavLink([
-            html.I(className="fa-solid fa-location-dot"),
-            "Locations"
-        ], href="/locations", className="navbar-link")
+            html.I(className="fa-solid fa-chart-line"),
+            "Job Market"
+        ], href="/job-market", className="navbar-link"),
     ],
         vertical=True,
         pills=True
