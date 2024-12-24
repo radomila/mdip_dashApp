@@ -132,11 +132,29 @@ layout = dbc.Container([
             html.Div(id="info-text", style={'display': 'none'})
         ], width=6),
         dbc.Col([
-            create_graph_button("show-info-button"),
-            html.Div(id="info-text", style={'display': 'none'})
+            create_graph_button("show-info-button-choropleth"),
+            html.Div(id="info-text-choropleth", style={'display': 'none'})
         ], width=6)
     ])
 ])
+
+@dash.callback(
+    [Output("info-text-choropleth", "children"),
+     Output("info-text-choropleth", "style"),
+     Output("show-info-button-choropleth", "children")],
+    Input("show-info-button-choropleth", "n_clicks")
+)
+
+
+def display_text_choropleth(n_clicks):
+    if n_clicks is None:
+        n_clicks = 0
+
+    if n_clicks % 2 == 1:
+        return get_info_text("avg_salary_choropleth"), {'display': 'block'}, "Hide Info"
+    else:
+        return "", {'display': 'none'}, "Show Info"
+
 
 @dash.callback(
     [Output("info-text", "children"),
@@ -144,12 +162,14 @@ layout = dbc.Container([
      Output("show-info-button", "children")],
     Input("show-info-button", "n_clicks")
 )
+
+
 def display_text(n_clicks):
     if n_clicks is None:
         n_clicks = 0
 
     if n_clicks % 2 == 1:
-        return get_info_text("sankey"), {'display': 'block'}, "Hide Info"
+        return get_info_text("avg_salary"), {'display': 'block'}, "Hide Info"
     else:
         return "", {'display': 'none'}, "Show Info"
 
