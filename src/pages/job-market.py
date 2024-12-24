@@ -74,7 +74,7 @@ layout = dbc.Container([
     ], className="graphs-container")
 ])
 
-# Callback pro aktualizaci Sankey diagramu
+
 @dash.callback(
     Output("sankey-diagram", "figure"),
     Input("work-years-dropdown", "value")
@@ -100,19 +100,20 @@ def update_sankey_graph(selected_work_year):
             pad=15,
             thickness=20,
             line=dict(color="black", width=0.5),
-            label=all_nodes
+            label=all_nodes,
         ),
         link=dict(
             source=source_indices,
             target=target_indices,
-            value=filtered_data['count']
+            value=filtered_data['count'],
         )
     ))
 
     sankey_figure.update_layout(title=f"Company Size vs Experience Level Flow for {selected_work_year}")
     return sankey_figure
 
-# Callback pro aktualizaci grafu časové řady
+
+
 @dash.callback(
     Output("remote-ratio-graph", "figure"),
     Input("remote-ratio-items", "value")
@@ -122,6 +123,12 @@ def update_graph(selected_ratios):
         return px.line(title="No data selected")
 
     filtered_data = remote_ratio_counts[remote_ratio_counts['label'].isin(selected_ratios)]
+
+    color_map = {
+        "Onsite": "#1f77b4",
+        "Hybrid": "#2ca02c",
+        "Remote": "#e57373"
+    }
 
     fig = px.line(
         filtered_data,
@@ -134,7 +141,8 @@ def update_graph(selected_ratios):
             "count": "Number of Employees",
             "label": "Remote Ratio"
         },
-        markers=True
+        markers=True,
+        color_discrete_map=color_map
     )
 
     fig.update_layout(

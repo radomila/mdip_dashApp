@@ -5,21 +5,22 @@ import pandas as pd
 import plotly.express as px
 from dash import dcc, html
 import pycountry
+from src.utils import format_to_k, create_graph_button, get_info_text
 
 dash.register_page(
     __name__,
     suppress_callback_exceptions=True,
     external_stylesheets=[dbc.themes.BOOTSTRAP],
-    path="/salaries",
+    path="/",
 )
 
 # Data loading
 df = pd.read_csv("data/salaries.csv")
 
 average_salary_per_country = df.groupby("company_location")["salary_in_usd"].mean()
-min_average_salary_per_country = int(average_salary_per_country.min())
-max_average_salary_per_country = int(average_salary_per_country.max())
-average_salary = int(df["salary_in_usd"].sum() / df['salary_in_usd'].count())
+min_average_salary_per_country = format_to_k(average_salary_per_country.min())
+max_average_salary_per_country = format_to_k(average_salary_per_country.max())
+average_salary = format_to_k(df["salary_in_usd"].sum() / df['salary_in_usd'].count())
 
 choropleth_df = average_salary_per_country.reset_index()
 choropleth_df.columns = ["company_location", "avg_salary"]
@@ -36,6 +37,7 @@ def convert_to_iso3(country_code):
         return pycountry.countries.lookup(country_code).alpha_3
     except LookupError:
         return None
+
 
 choropleth_df["company_location"] = choropleth_df["company_location"].apply(convert_to_iso3)
 choropleth_df = choropleth_df.dropna(subset=["company_location"])
@@ -115,17 +117,42 @@ layout = dbc.Container([
                 id="loading-graph",
                 type="default",
                 children=dcc.Graph(id="salary-graph")
-            )
+            ),
         ], width=6),
         dbc.Col([
             dcc.Graph(
                 figure=fig,
                 id="choropleth-graph"
-            )
+            ),
+        ], width=6),
+    ], className="graphs-container"),
+    dbc.Row([
+        dbc.Col([
+            create_graph_button("show-info-button"),
+            html.Div(id="info-text", style={'display': 'none'})
+        ], width=6),
+        dbc.Col([
+            create_graph_button("show-info-button"),
+            html.Div(id="info-text", style={'display': 'none'})
         ], width=6)
-
-    ], className="graphs-container")
+    ])
 ])
+
+@dash.callback(
+    [Output("info-text", "children"),
+     Output("info-text", "style"),
+     Output("show-info-button", "children")],
+    Input("show-info-button", "n_clicks")
+)
+def display_text(n_clicks):
+    if n_clicks is None:
+        n_clicks = 0
+
+    if n_clicks % 2 == 1:
+        return get_info_text("sankey"), {'display': 'block'}, "Hide Info"
+    else:
+        return "", {'display': 'none'}, "Show Info"
+
 
 # Callback function for graph showing average salary in USD per year from 2020-2024
 @dash.callback(

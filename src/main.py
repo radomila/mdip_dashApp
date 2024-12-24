@@ -8,17 +8,17 @@ app = Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP,
 navbar = html.Div([
     dbc.Nav([
         dbc.NavLink([
-            html.I(className="fa-solid fa-house"),
-            "Homepage"
-        ], href="/homepage", className="navbar-link"),
-        dbc.NavLink([
             html.I(className="fa-solid fa-sack-dollar"),
             "Salaries"
-        ], href="/salaries", className="navbar-link"),
+        ], href="/", className="navbar-link"),
         dbc.NavLink([
             html.I(className="fa-solid fa-chart-line"),
             "Job Market"
         ], href="/job-market", className="navbar-link"),
+        dbc.NavLink([
+            html.I(className="fa-solid fa-house"),
+            "About"
+        ], href="/about", className="navbar-link"),
     ],
         vertical=True,
         pills=True
