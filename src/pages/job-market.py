@@ -115,7 +115,7 @@ def display_text_sankey(n_clicks):
         - str: The information text to display (or an empty string if hidden).
         - dict: The CSS style dict controlling visibility (`{'display': 'block'}` or `{'display': 'none'}`).
         - str: The button text, either "Show Info" or "Hide Info".
-        """
+    """
     if n_clicks is None:
         n_clicks = 0
 
