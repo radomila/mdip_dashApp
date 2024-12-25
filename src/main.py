@@ -1,10 +1,12 @@
+"""The main file defines the root structure of the app."""
+
 import dash
 from dash import Dash, html
 import dash_bootstrap_components as dbc
 
 app = Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME])
 
-# Navbar
+# navbar
 navbar = html.Div([
     dbc.Nav([
         dbc.NavLink([
@@ -27,7 +29,7 @@ navbar = html.Div([
     className="navbar"
 )
 
-# Layout aplikace
+# layout
 app.layout = html.Div(
     children=[
         navbar,  

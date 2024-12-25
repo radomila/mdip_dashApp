@@ -1,3 +1,17 @@
+"""
+The salaries page demonstrates the salary ratio from a several points of view.
+
+This page contains two graphs:
+
+1. Bar graph showing the annual average salary for each year (from 2020 to 2024). Several controls above the graph can affect data presented in the graph to the user.
+2. Choropleth graph showing the annual average salary throughout years in the individual countries worldwide.
+
+Page also presents the average salary, the lowest salary and the highest salary for the specific country.
+
+Button below each graph shows information about what the graph expresses.
+"""
+
+
 import dash
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
@@ -14,7 +28,6 @@ dash.register_page(
     path="/",
 )
 
-# Data loading
 df = pd.read_csv("data/salaries.csv")
 
 average_salary_per_country = df.groupby("company_location")["salary_in_usd"].mean()
@@ -31,7 +44,6 @@ min_salary_location_fullname = pycountry.countries.get(alpha_2=min_salary_locati
 max_salary_location = choropleth_df.loc[choropleth_df["avg_salary"] == choropleth_df["avg_salary"].max(), "company_location"].iloc[0]
 max_salary_location_fullname = pycountry.countries.get(alpha_2=max_salary_location).official_name
 
-# Function for converting country codes to ISO-3
 def convert_to_iso3(country_code):
     try:
         return pycountry.countries.lookup(country_code).alpha_3
@@ -42,27 +54,33 @@ def convert_to_iso3(country_code):
 choropleth_df["company_location"] = choropleth_df["company_location"].apply(convert_to_iso3)
 choropleth_df = choropleth_df.dropna(subset=["company_location"])
 
-fig = px.choropleth(
-    choropleth_df,
-    locations="company_location",
-    color="avg_salary",
-    locationmode="ISO-3",
-    color_continuous_scale="blues",
-    title="Average Salary by Country in USD"
-)
-
-fig.update_layout(
-    title_font=dict(
-        size=13,
-    )
-)
-
 experience_levels = [{"label": i, "value": i} for i in df["experience_level"].unique()]
 employment_types = [{"label": i, "value": i} for i in df["employment_type"].unique()]
 company_sizes = [{"label": i, "value": i} for i in df["company_size"].unique()]
 job_titles = df["job_title"].unique()
 
-# Layout
+
+def get_graph():
+    """Creates a choropleth graph showing the average annual salary in different countries worldwide"""
+    fig = px.choropleth(
+        choropleth_df,
+        locations="company_location",
+        color="avg_salary",
+        locationmode="ISO-3",
+        color_continuous_scale="Blues",
+        title="Average Salary by Country in USD"
+    )
+
+    fig.update_layout(
+        title_font=dict(
+            size=13,
+        )
+    )
+
+    return fig
+
+
+# layout
 layout = dbc.Container([
     dbc.Row([
         dbc.Col(dbc.Card(
@@ -121,7 +139,7 @@ layout = dbc.Container([
         ], width=6),
         dbc.Col([
             dcc.Graph(
-                figure=fig,
+                figure=get_graph(),
                 id="choropleth-graph"
             ),
         ], width=6),
@@ -138,15 +156,25 @@ layout = dbc.Container([
     ])
 ])
 
+
 @dash.callback(
     [Output("info-text-choropleth", "children"),
      Output("info-text-choropleth", "style"),
      Output("show-info-button-choropleth", "children")],
     Input("show-info-button-choropleth", "n_clicks")
 )
-
-
 def display_text_choropleth(n_clicks):
+    """Displays and hides the information about the graph
+
+    Args:
+        n_clicks (integer or None): The number of times the button has been clicked.
+
+    Returns:
+        tuple: A tuple containing:
+        - str: The information text to display (or an empty string if hidden).
+        - dict: The CSS style dict controlling visibility (`{'display': 'block'}` or `{'display': 'none'}`).
+        - str: The button text, either "Show Info" or "Hide Info".
+    """
     if n_clicks is None:
         n_clicks = 0
 
@@ -162,9 +190,18 @@ def display_text_choropleth(n_clicks):
      Output("show-info-button", "children")],
     Input("show-info-button", "n_clicks")
 )
-
-
 def display_text(n_clicks):
+    """Displays and hides the information about the graph
+
+    Args:
+        n_clicks (integer or None): The number of times the button has been clicked.
+
+    Returns:
+        tuple: A tuple containing:
+        - str: The information text to display (or an empty string if hidden).
+        - dict: The CSS style dict controlling visibility (`{'display': 'block'}` or `{'display': 'none'}`).
+        - str: The button text, either "Show Info" or "Hide Info".
+    """
     if n_clicks is None:
         n_clicks = 0
 
@@ -174,7 +211,6 @@ def display_text(n_clicks):
         return "", {'display': 'none'}, "Show Info"
 
 
-# Callback function for graph showing average salary in USD per year from 2020-2024
 @dash.callback(
     Output("salary-graph", "figure"),
     [
@@ -183,8 +219,18 @@ def display_text(n_clicks):
         Input("company-dropdown", "value")
     ]
 )
-
 def update_graph(experience_levels, employment_types, company_sizes):
+    """Plots the average annual salary from 2020 to 2024 in AI, ML and Data Science
+    
+    Args: 
+        experience_levels(list): Filters data frame according to experience level
+        employment_types(list): Filters data frame according to employment type
+        company_sizes(list): Filters data frame according to company size
+        
+    Returns:
+        A plotly figure
+    """
+
     filtered_df = df.copy()
 
     if experience_levels:

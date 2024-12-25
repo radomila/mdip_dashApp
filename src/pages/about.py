@@ -1,3 +1,8 @@
+"""
+The about page contains a short description and source of the data used for this project.
+"""
+
+
 import dash
 import dash_bootstrap_components as dbc
 from dash import html
@@ -11,6 +16,7 @@ dash.register_page(
 
 url = "https://aijobs.net/salaries/download/"
 
+# layout
 layout = dbc.Container([
     html.Div([
         html.H2("About"),
