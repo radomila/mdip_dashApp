@@ -16,6 +16,25 @@ Projekt byl strukturován a rozdělen do několika složek:
 
 Dokumentace je vygenerována za pomocí balíčku `pdoc` a v projektu je uchována v rámci složky `docs`.
 
+## Instalace 
+
+Pro instalaci je potřeba v rámci kořenové složky vytvořit a aktivovat virtuální prostředí, tj.: 
+
+Linux/Mac:
+
+```bashvirtualenv venv
+virtualenv venv
+source venv/bin/activate
+pip3 install -e .
+```
+
+Windows: 
+```powershell
+virtualenv venv
+venv\Scripts\activate
+pip install -e .
+```
+
 ## Použité nástroje
 
 Mezi využívané balíčky patří: 

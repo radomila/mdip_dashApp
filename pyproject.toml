@@ -1,19 +1,27 @@
-[tool.poetry]
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
 name = "mdip-semestral-project"
 version = "0.1.0"
 description = "Data science project for MDIP class"
-authors = ["Radomila Hejhalová <hejhalova.radomila@gmail.com>"]
+authors = [{ name = "Radomila Hejhalová", email = "hejhalova.radomila@gmail.com" }]
 readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = [
+    "dash",
+    "dash-bootstrap-components",
+    "pandas",
+    "numpy",
+    "plotly"
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-dash = "2.18.2"
-pandas = "2.2.1"
-dash-bootstrap-components = "1.6.1rc2"
-plotly = "6.0.0rc0"
-numpy = "1.26.4"
+[project.optional-dependencies]
+dev = [
+    "pdoc",
+]
 
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[project.scripts]
+dashboard = "src.main:main"
